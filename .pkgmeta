@@ -1,0 +1,8 @@
+package-as: DataStore_Garrisons
+
+move-folders:
+ DataStore_Garrisons/DataStore_Garrisons: DataStore_Garrisons
+
+ignore:
+ - LICENCE.md
+ - README.md
