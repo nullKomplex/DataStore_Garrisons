@@ -269,7 +269,25 @@ local function ClearInactiveMissionsData()
 
 		for _, missionID in pairs(character[activeMissionsStorage[Enum.GarrisonFollowerType.FollowerType_7_0]]) do
 			activeMissions[missionID] = true
-		end		
+		end
+        
+		-- get all war campaign missions
+		for _, missionID in pairs(character[availableMissionsStorage[Enum.GarrisonFollowerType.FollowerType_8_0]]) do
+			availableMissions[missionID] = true
+		end
+
+		for _, missionID in pairs(character[activeMissionsStorage[Enum.GarrisonFollowerType.FollowerType_8_0]]) do
+			activeMissions[missionID] = true
+		end
+        
+		-- get all covenant missions
+		for _, missionID in pairs(character[availableMissionsStorage[Enum.GarrisonFollowerType.FollowerType_9_0]]) do
+			availableMissions[missionID] = true
+		end
+
+		for _, missionID in pairs(character[activeMissionsStorage[Enum.GarrisonFollowerType.FollowerType_9_0]]) do
+			activeMissions[missionID] = true
+		end
 	
 		-- loop through all mission info & start times
 		for missionID, _ in pairs(character.MissionsInfo) do		
@@ -688,12 +706,13 @@ end
  
 local function ScanActiveMissions(followerType)
 	local missionsList = {}
+    local char = addon.ThisCharacter
 	C_Garrison.GetInProgressMissions(missionsList, followerType)
 	
-	local missions = addon.ThisCharacter[activeMissionsStorage[followerType]]		-- ex: addon.ThisCharacter.ActiveMissions
+	local missions = char[activeMissionsStorage[followerType]]		-- ex: addon.ThisCharacter.ActiveMissions
 	wipe(missions)
 
-	local missionsInfo = addon.ThisCharacter.MissionsInfo
+	local missionsInfo = char.MissionsInfo
 	
 	for k, mission in pairs(missionsList) do
 		table.insert(missions, mission.missionID)		-- add mission id to the list of active missions ..
@@ -714,6 +733,11 @@ local function ScanActiveMissions(followerType)
 		info.successChance = C_Garrison.GetMissionSuccessChance(mission.missionID)
 		
 		missionsInfo[mission.missionID] = info
+        
+        local inf = C_Garrison.GetBasicMissionInfo(mission.missionID)
+        if inf then 
+            char.MissionsStartTimes[mission.missionID] = time() + inf.timeLeftSeconds - inf.durationSeconds
+        end 
 	end
 	
 	addon.ThisCharacter.lastUpdate = time()
