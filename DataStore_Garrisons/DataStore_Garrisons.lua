@@ -1160,25 +1160,7 @@ function addon:OnEnable()
 	addon:RegisterEvent("GARRISON_BUILDING_ACTIVATED", OnGarrisonBuildingActivated)
 	addon:RegisterEvent("GARRISON_BUILDING_UPDATE", OnGarrisonBuildingUpdate)
 	addon:RegisterEvent("GARRISON_BUILDING_REMOVED", OnGarrisonBuildingRemoved)
-	addon:RegisterEvent("SHOW_LOOT_TOAST", OnShowLootToast)
-	
-	-- Missions
-	addon:ScheduleTimer(function()
-			-- To avoid the long list of GARRISON_MISSION_LIST_UPDATE at startup, make the initial scan 3 seconds later ..
-			ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_6_0, GARRISON_MISSIONS_STORAGE)
-			ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_7_0, ORDERHALL_MISSIONS_STORAGE)
-			ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_8_0, WARCAMPAIGN_MISSIONS_STORAGE)
-            ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_9_0, COVENANT_MISSIONS_STORAGE)
-			ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_6_0)
-			ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_7_0)
-			ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_8_0)
-            ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_9_0)
-
-			-- .. then register the event
-			-- note, at logon, GARRISON_UPDATE is fired before MISSION_LIST_UPDATE
-			-- addon:RegisterEvent("GARRISON_MISSION_LIST_UPDATE", OnGarrisonMissionListUpdate)
-			-- addon:RegisterEvent("GARRISON_UPDATE", OnGarrisonUpdate)
-		end, 3)	
+	addon:RegisterEvent("SHOW_LOOT_TOAST", OnShowLootToast)	
 	
 	addon:RegisterEvent("GARRISON_MISSION_NPC_OPENED", OnGarrisonMissionNPCOpened)
 	addon:RegisterEvent("GARRISON_MISSION_NPC_CLOSED", OnGarrisonMissionNPCClosed)
@@ -1194,6 +1176,24 @@ function addon:OnEnable()
 	end
 	
 	ClearInactiveMissionsData()
+    
+	-- Missions
+	addon:ScheduleTimer(function()
+			-- To avoid the long list of GARRISON_MISSION_LIST_UPDATE at startup, make the initial scan 10 seconds later ..
+			ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_6_0, GARRISON_MISSIONS_STORAGE)
+			ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_7_0, ORDERHALL_MISSIONS_STORAGE)
+			ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_8_0, WARCAMPAIGN_MISSIONS_STORAGE)
+            ScanAvailableMissions(Enum.GarrisonFollowerType.FollowerType_9_0, COVENANT_MISSIONS_STORAGE)
+			ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_6_0)
+			ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_7_0)
+			ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_8_0)
+            ScanActiveMissions(Enum.GarrisonFollowerType.FollowerType_9_0)
+
+			-- .. then register the event
+			-- note, at logon, GARRISON_UPDATE is fired before MISSION_LIST_UPDATE
+			-- addon:RegisterEvent("GARRISON_MISSION_LIST_UPDATE", OnGarrisonMissionListUpdate)
+			-- addon:RegisterEvent("GARRISON_UPDATE", OnGarrisonUpdate)
+		end, 10)
 end
 
 function addon:OnDisable()
