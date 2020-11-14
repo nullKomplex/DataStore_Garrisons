@@ -44,7 +44,7 @@ local AddonDB_Defaults = {
 				lastResourceCollection = nil,
                 hasUpgradedResourceCollection = nil,
 				numFollowers = 0,
-				numFollowersAtLevel100 = 0,
+				numFollowersAtLevel40 = 0,
 				numFollowersAtiLevel615 = 0,
 				numFollowersAtiLevel630 = 0,
 				numFollowersAtiLevel645 = 0,
@@ -397,7 +397,7 @@ local function ScanFollowers()
 	
 	local numFollowers = 0		-- number of followers
 	local numActive = 0			-- number of active followers
-	local num100 = 0				-- number of followers at level 100
+	local num40 = 0				-- number of followers at level 40
 	local num615 = 0				-- number of followers at iLevel 615+
 	local num630 = 0				-- number of followers at iLevel 630+
 	local num645 = 0				-- number of followers at iLevel 645+
@@ -476,8 +476,8 @@ local function ScanFollowers()
 			level = tonumber(level)
 			iLevel = tonumber(iLevel)
 			
-			if level == 100 then 
-				num100 = num100 + 1 
+			if level == 40 then 
+				num40 = num40 + 1 
 				
 				if not isInactive then
 					numActive = numActive + 1
@@ -524,7 +524,7 @@ local function ScanFollowers()
 	local c = addon.ThisCharacter
 	
 	c.numFollowers = numFollowers
-	c.numFollowersAtLevel100 = num100
+	c.numFollowersAtLevel40 = num40
 	c.numFollowersAtiLevel615 = num615
 	c.numFollowersAtiLevel630 = num630
 	c.numFollowersAtiLevel645 = num645
@@ -943,8 +943,8 @@ local function _GetNumFollowers(character)
 	return character.numFollowers or 0
 end
 
-local function _GetNumFollowersAtLevel100(character)
-	return character.numFollowersAtLevel100 or 0
+local function _GetNumFollowersAtLevel40(character)
+	return character.numFollowersAtLevel40 or 0
 end
 
 local function _GetNumFollowersAtiLevel615(character)
@@ -1086,7 +1086,7 @@ local PublicMethods = {
 	GetFollowerLink = _GetFollowerLink,
 	GetFollowerID = _GetFollowerID,
 	GetNumFollowers = _GetNumFollowers,
-	GetNumFollowersAtLevel100 = _GetNumFollowersAtLevel100,
+	GetNumFollowersAtLevel40 = _GetNumFollowersAtLevel40,
 	GetNumFollowersAtiLevel615 = _GetNumFollowersAtiLevel615,
 	GetNumFollowersAtiLevel630 = _GetNumFollowersAtiLevel630,
 	GetNumFollowersAtiLevel645 = _GetNumFollowersAtiLevel645,
@@ -1122,7 +1122,7 @@ function addon:OnInitialize()
 	DataStore:SetCharacterBasedMethod("GetFollowerSpellCounters")
 	DataStore:SetCharacterBasedMethod("GetFollowerLink")
 	DataStore:SetCharacterBasedMethod("GetNumFollowers")
-	DataStore:SetCharacterBasedMethod("GetNumFollowersAtLevel100")
+	DataStore:SetCharacterBasedMethod("GetNumFollowersAtLevel40")
 	DataStore:SetCharacterBasedMethod("GetNumFollowersAtiLevel615")
 	DataStore:SetCharacterBasedMethod("GetNumFollowersAtiLevel630")
 	DataStore:SetCharacterBasedMethod("GetNumFollowersAtiLevel645")
